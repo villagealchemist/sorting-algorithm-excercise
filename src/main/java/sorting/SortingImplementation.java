@@ -1,5 +1,7 @@
 package sorting;
 
+import java.util.Random;
+
 /**  A class that implements SortingInterface. Has various methods
  *   to sort a list of elements. */
 public class SortingImplementation  implements SortingInterface {
@@ -21,7 +23,7 @@ public class SortingImplementation  implements SortingInterface {
                 curr = array[i];
                 j = i - 1;
                 while (j >= lowindex && curr.compareTo(array[j]) < 0) {
-                    array[j + 1] = array[j]; 
+                    array[j + 1] = array[j];
                     j--;
                 }
                 array[j + 1] = curr;
@@ -30,7 +32,7 @@ public class SortingImplementation  implements SortingInterface {
             for (int i = highindex - 1; i >= lowindex; i--){
                 curr = array[i];
                 j = i + 1;
-                while (j <= highindex && curr.compareTo(array[j]) > 0){
+                while (j <= highindex && curr.compareTo(array[j]) < 0){
                     array [j - 1] = array[j];
                     j++;
                 }
@@ -45,8 +47,47 @@ public class SortingImplementation  implements SortingInterface {
      * @param array array to sort
      */
     @Override
-    public void iterativeMergeSort(Comparable[] array) {
-        // FILL ON CODE
+   public void iterativeMergeSort(Comparable[] array) {
+
+        Comparable[] temp = new Comparable[array.length];
+
+        for(int i = 0; i < array.length; i *= 2){
+            for(int j = 0; j < array.length; j += i * 2){
+                int low, middle, high;
+
+                low = j;
+                middle = i + j;
+                high = i + (2 * i);
+                merge(array, temp, low, middle, high);
+            }
+        }
+    }
+    public static void merge(Comparable[] arr, Comparable[] temp, int low, int mid, int high){
+        int k = low;
+        int i = low;
+        int j = mid + 1;
+        while (k <= high) {
+            if (i > mid) {// ran out of elements in the i sublist
+                temp[k] = arr[j];
+                k++;
+                j++;
+            } else if (j > high) {// ran out of elements in the j sublist
+                temp[k] = arr[i];
+                k++;
+                i++;
+            } else if (arr[i].compareTo(arr[j]) < 0) { // place arr[i] in temp, move i
+                temp[k] = arr[i];
+                k++;
+                i++;
+            } else {
+                temp[k] = arr[j]; // place arr[j] in temp, move j
+                k++;
+                j++;
+            }
+        }
+        // copy the result from temp back to arr
+        for (k = low; k <= high; k++)
+            arr[k] = temp[k];
     }
 
     /**
@@ -56,10 +97,76 @@ public class SortingImplementation  implements SortingInterface {
      * @param lowindex the beginning index of a sublist
      * @param highindex the end index of a sublist
      */
+
     @Override
     public void randomizedQuickSort(Comparable[] array, int lowindex, int highindex) {
-        // FILL ON CODE
+        int pivot; // index of the pivot
+        int i = 0;
+        if (lowindex < highindex) {
+            pivot = partition(array, lowindex, highindex);
+            randomizedQuickSort(array, lowindex, pivot - 1);
+            randomizedQuickSort(array, pivot + 1, highindex);
+        }
     }
+    static int partition(Comparable arr[], int low, int high) {
+
+        Random gen = new Random();
+        int one = low + gen.nextInt(high - low); //creates random index for the pivot
+        int two = low + gen.nextInt(high - low);
+        int three = low + gen.nextInt(high - low);
+
+        int mid = findMedian( arr, one, two, three);
+
+
+
+        // swap pivot in the last position (high)
+        Comparable pivot  = arr[mid];
+        arr[mid] = arr[high];
+        arr[high] = pivot;
+
+        int i = low;
+        int j = high - 1;
+        while (i <= j) {
+            while (i < high && arr[i].compareTo(pivot) < 0) {
+                i++;
+            }
+
+            while (j >= low && arr[j].compareTo(pivot) >= 0 ) {
+                j--;
+            }
+
+            if (i < j) {
+                // swap values at indices i and j
+                int tmp = (int) arr[i];
+                arr[i] = arr[j];
+                arr[j] = tmp;
+                i++;
+                j--;
+            }
+
+        }
+
+        // swap pivot back to index i
+        int tmp = (int) arr[i];
+        arr[i] = pivot;
+        arr[high] = tmp;
+        return i;
+    }
+    static int findMedian(Comparable arr[], int one, int two, int three){ //Method to find the median of the 3 array elements for quicksort
+        Comparable a = arr[one];
+        Comparable b = arr[two];
+        Comparable c = arr[three];
+        if (a .compareTo(b) < 0 && b.compareTo(c) < 0 || c.compareTo(b) < 0 && b.compareTo(a) < 0){
+            return two;
+        }
+        else if(b.compareTo(a) < 0 && a.compareTo(c) < 0 || c.compareTo(a) < 0 && a.compareTo(b)< 0){
+            return one;
+        }else{
+            return three;
+        }
+    }
+
+
 
     /**
      * Sorts a given sublist using hybrid sort, where the list is sorted
