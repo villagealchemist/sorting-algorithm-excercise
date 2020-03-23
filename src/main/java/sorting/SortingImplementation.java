@@ -1,6 +1,9 @@
 package sorting;
 
+import java.io.*;
 import java.util.Random;
+
+import static java.lang.Integer.parseInt;
 
 /**  A class that implements SortingInterface. Has various methods
  *   to sort a list of elements. */
@@ -203,7 +206,77 @@ public class SortingImplementation  implements SortingInterface {
      * @param m number of chunks
      */
     public void externalSort(String inputFile, String outputFile, int k, int m) {
-        // FILL IN CODE
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(inputFile));
+            int totalCount = 0;
+
+            for (int i = 0; i < m; i++){
+                int count = 0;
+                Integer[] array = new Integer[k];
+                String fileName = "temp" + i + ".txt";
+                BufferedWriter bw = new BufferedWriter(new FileWriter(fileName));
+                for (int j = 0; j < k; j++){
+                    String elem = br.readLine();
+                    if (elem != null){
+                        array[j] = parseInt(elem);
+                        count++;
+                        totalCount++;
+                    }else{
+                        break;
+                    }
+                }
+                randomizedQuickSort(array,0, count - 1);
+                for (int j = 0; j < count; j++) {
+                    bw.write(array[j].toString());
+                    bw.newLine();
+                }
+                bw.close();
+            }
+
+            BufferedReader[] readers = new BufferedReader[m];
+            BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile));
+            Integer[] values = new Integer[m];
+            for( int i = 0; i < m; i++){
+                readers[i]  = new BufferedReader(new FileReader("temp" + i + ".txt"));
+
+                values[i] = parseInt(readers[i].readLine());
+            }
+
+
+
+            for(int i = 0; i < totalCount; i++) {
+                int smallIndex = 0;
+                for (int j = 1; j < m; j++) {
+                    if(values[j] == null){
+                        continue;
+                    }
+                    if (values[smallIndex] == null || values[j] < values[smallIndex]) { // possible source of error
+                        smallIndex = j;
+                    }
+                }
+
+
+                writer.write(values[smallIndex].toString());
+                writer.newLine();
+
+                String nextValue = readers[smallIndex].readLine();
+                if (nextValue != null) {
+                    values[smallIndex] = parseInt(nextValue);
+                }else{
+                    values[smallIndex] = null;
+                }
+            }
+            writer.close();
+
+        }catch(IOException e){
+            System.out.println("Failed: " + e.getMessage());
+        }
+
+
+
+
+
 
     }
 }
