@@ -51,13 +51,13 @@ public class SortingImplementation  implements SortingInterface {
 
         Comparable[] temp = new Comparable[array.length];
 
-        for(int i = 0; i < array.length; i *= 2){
+        for(int i = 1; i < array.length; i *= 2){
             for(int j = 0; j < array.length; j += i * 2){
                 int low, middle, high;
 
                 low = j;
-                middle = i + j;
-                high = i + (2 * i);
+                middle = i + j - 1;
+                high = j + i * 2 - 1;
                 merge(array, temp, low, middle, high);
             }
         }

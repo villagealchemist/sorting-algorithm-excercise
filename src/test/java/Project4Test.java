@@ -185,8 +185,8 @@ public class Project4Test {
                 case "insertion":
                     listSorter.insertionSort(arr1, 0, arr1.length - 1, false);
                     listSorter.insertionSort(arr2, lowindex, highindex, false);
-                    // System.out.println(Arrays.toString(arr2Copy));
-                    // System.out.println("after: " + Arrays.toString(arr2));
+                     System.out.println(Arrays.toString(arr2Copy));
+                     System.out.println("after: " + Arrays.toString(arr2));
                     break;
 
                 case "randomizedQuick":
