@@ -107,7 +107,6 @@ public class SortingImplementation  implements SortingInterface {
     @Override
     public void randomizedQuickSort(Comparable[] array, int lowindex, int highindex) {
         int pivot; // index of the pivot
-        int i = 0;
         if (lowindex < highindex) {
             pivot = partition(array, lowindex, highindex);
             randomizedQuickSort(array, lowindex, pivot - 1);
@@ -117,7 +116,7 @@ public class SortingImplementation  implements SortingInterface {
     static int partition(Comparable arr[], int low, int high) {
 
         Random gen = new Random();
-        int one = low + gen.nextInt(high - low); //creates random index for the pivot
+        int one = low + gen.nextInt(high - low);
         int two = low + gen.nextInt(high - low);
         int three = low + gen.nextInt(high - low);
 
@@ -184,11 +183,16 @@ public class SortingImplementation  implements SortingInterface {
      */
     @Override
     public void hybridSort(Comparable[] array, int lowindex, int highindex) {
-        while (highindex > 10){
-            randomizedQuickSort(array, lowindex, highindex);
+        if ( highindex - lowindex > 1000){
+            int pivot; // index of the pivot
+            if (lowindex < highindex) {
+                pivot = partition(array, lowindex, highindex);
+                hybridSort(array, lowindex, pivot - 1);
+                hybridSort(array, pivot + 1, highindex);
+            }
+        }else {
+            insertionSort(array, lowindex, highindex, false);
         }
-        insertionSort(array, lowindex, highindex, false);
-
     }
 
     /**
