@@ -64,9 +64,6 @@ public class SortingImplementation  implements SortingInterface {
                 merge(array, temp, low, middle, high);
             }
         }
-        for (int i = 0; i < array.length; i++){
-            System.out.print(array[i] + " ");
-        }
     }
     public static void merge(Comparable[] arr, Comparable[] temp, int low, int mid, int high){
         int k = low;
@@ -251,7 +248,7 @@ public class SortingImplementation  implements SortingInterface {
                     index++;
                 }
             }
-        }else{
+        }else{ //sorts the list in descending order
             for (int i = lowindex; i <= highindex; i++){
                 int bucketPlace = array[i].key() / bucketSize;
                 ListIterator<Elem> it = buckets[bucketPlace].listIterator();
@@ -296,9 +293,9 @@ public class SortingImplementation  implements SortingInterface {
 
         try {
             BufferedReader br = new BufferedReader(new FileReader(inputFile));
-            int totalCount = 0;
+            int totalCount = 0; //keeps total count of elements to go in to final list (N)
 
-            for (int i = 0; i < m; i++){
+            for (int i = 0; i < m; i++){ //writes to temp files
                 int count = 0;
                 Integer[] array = new Integer[k];
                 String fileName = "temp" + i + ".txt";
@@ -327,7 +324,7 @@ public class SortingImplementation  implements SortingInterface {
             for( int i = 0; i < m; i++){
                 readers[i]  = new BufferedReader(new FileReader("temp" + i + ".txt"));
 
-                values[i] = parseInt(readers[i].readLine());
+                values[i] = parseInt(readers[i].readLine()); //copies all of the sorted elements into one array
             }
 
 
@@ -338,7 +335,7 @@ public class SortingImplementation  implements SortingInterface {
                     if(values[j] == null){
                         continue;
                     }
-                    if (values[smallIndex] == null || values[j] < values[smallIndex]) { // possible source of error
+                    if (values[smallIndex] == null || values[j] < values[smallIndex]) {
                         smallIndex = j;
                     }
                 }
