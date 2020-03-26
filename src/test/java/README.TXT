@@ -7,4 +7,5 @@ where quicksort would be less efficient.
 
 I tested both the hybrid sort and the quicksort methods extensively. However, in my experience the quicksort method continuously
 outperformed the hybrid sort. On sorted lists the hybrid sort would work faster but on the unsorted lists I tried the quicksort would
-outperform the hybrid by >= 100 milliseconds.
+outperform the hybrid by >= 100 milliseconds. The hybrid would also work better when I adjusted the sublist size from 10 to different intervals
+(i.e. 100, 1000) etc. Depending on the size of the array.

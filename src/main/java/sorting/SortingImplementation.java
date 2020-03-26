@@ -183,7 +183,7 @@ public class SortingImplementation  implements SortingInterface {
      */
     @Override
     public void hybridSort(Comparable[] array, int lowindex, int highindex) {
-        if ( highindex - lowindex > 1000){
+        if ( highindex - lowindex > 10){
             int pivot; // index of the pivot
             if (lowindex < highindex) {
                 pivot = partition(array, lowindex, highindex);
