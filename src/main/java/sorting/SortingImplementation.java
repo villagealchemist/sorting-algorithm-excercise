@@ -324,12 +324,12 @@ public class SortingImplementation  implements SortingInterface {
             for( int i = 0; i < m; i++){
                 readers[i]  = new BufferedReader(new FileReader("temp" + i + ".txt"));
 
-                values[i] = parseInt(readers[i].readLine()); //copies all of the sorted elements into one array
+                values[i] = parseInt(readers[i].readLine()); //stores first element of each file
             }
 
 
 
-            for(int i = 0; i < totalCount; i++) {
+            for(int i = 0; i < totalCount; i++) {//compares elements from files and adds them to sorted array
                 int smallIndex = 0;
                 for (int j = 1; j < m; j++) {
                     if(values[j] == null){
