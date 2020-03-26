@@ -68,7 +68,7 @@ public class Project4Test {
                 int data = r.nextInt(1000);
                 arr[j] = new Elem(key, new Integer(data));
             }
-            listSorter.bucketSort(arr, lowindex, highindex, false);
+            listSorter.bucketSort(arr, lowindex, highindex, true);
 
             if (!areElemsSorted(arr, lowindex, highindex)) {
                 System.out.println("In Bucket Sort Test: Not sorted correctly");

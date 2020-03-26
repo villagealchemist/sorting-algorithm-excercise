@@ -1,7 +1,7 @@
 package sorting;
 
 import java.io.*;
-import java.util.Random;
+import java.util.*;
 
 import static java.lang.Integer.parseInt;
 
@@ -63,6 +63,9 @@ public class SortingImplementation  implements SortingInterface {
                 high = j + i * 2 - 1;
                 merge(array, temp, low, middle, high);
             }
+        }
+        for (int i = 0; i < array.length; i++){
+            System.out.print(array[i] + " ");
         }
     }
     public static void merge(Comparable[] arr, Comparable[] temp, int low, int mid, int high){
@@ -181,7 +184,10 @@ public class SortingImplementation  implements SortingInterface {
      */
     @Override
     public void hybridSort(Comparable[] array, int lowindex, int highindex) {
-        // FILL ON CODE
+        while (highindex > 10){
+            randomizedQuickSort(array, lowindex, highindex);
+        }
+        insertionSort(array, lowindex, highindex, false);
 
     }
 
@@ -194,9 +200,86 @@ public class SortingImplementation  implements SortingInterface {
      */
     @Override
     public void bucketSort(Elem[] array, int lowindex, int highindex, boolean reversed) {
-        // FILL IN CODE
 
+        int numBuckets = ((highindex-lowindex) + 1) / 2;
+        LinkedList<Elem>[] buckets = new LinkedList[numBuckets];
+        int maxVal = array[0].key();
+
+        for (int i = 0; i < buckets.length; i++){
+            buckets[i] = new LinkedList<Elem>();
+        }
+
+        for (int i = 1; i < array.length; i++){
+            if (array[i].key() > maxVal){
+                maxVal = array[i].key();
+            }
+        }
+
+        int bucketSize = (int) Math.ceil((double) (maxVal + 1)/numBuckets);
+
+        if(reversed == false) {
+            for (int i = lowindex; i <= highindex; i++) {
+                int bucketPlace = array[i].key() / bucketSize;
+                ListIterator<Elem> it = buckets[bucketPlace].listIterator();
+                if (!it.hasNext()) {
+                    it.add(array[i]);
+                } else {
+                    boolean added = false;
+                    while (it.hasNext()) {
+                        if (it.next().key() > array[i].key()) {
+                            it.previous();
+                            it.add(array[i]);
+                            added = true;
+                            break;
+                        }
+                    }
+                    if (!added) {
+                        it.add(array[i]);
+                    }
+                }
+            }
+            int index = lowindex;
+
+            for (int i = 0; i < buckets.length; i++){
+                Iterator<Elem> it = buckets[i].listIterator();
+                while (it.hasNext()){
+                    array[index] = it.next();
+                    index++;
+                }
+            }
+        }else{
+            for (int i = lowindex; i <= highindex; i++){
+                int bucketPlace = array[i].key() / bucketSize;
+                ListIterator<Elem> it = buckets[bucketPlace].listIterator();
+                if (!it.hasNext()){
+                    it.add(array[i]);
+                }else {
+                    boolean added = false;
+                    while (it.hasNext()) {
+                        if (it.next().key() < array[i].key()) {
+                            it.previous();
+                            it.add(array[i]);
+                            added = true;
+                            break;
+                        }
+                    }
+                    if (!added){
+                        it.add(array[i]);
+                    }
+                }
+            }
+            int index = lowindex;
+            for (int j = buckets.length - 1; j >= 0; j--){
+                Iterator<Elem> newIt = buckets[j].listIterator();
+                while (newIt.hasNext()){
+                    array[index] = newIt.next();
+                    index++;
+                }
+
+            }
+        }
     }
+
 
     /**
      * Implements external sort method
