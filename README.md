@@ -1,5 +1,5 @@
-# Project2, Sorting
-For project2, you need to fill in the code of the following sorting methods in the SortingImplementaiton class:
+# Practice in Sorting Algorithms Excercise
+
 -	Insertion sort
 -	Iterative merge sort
 -	Randomized Quick Sort
@@ -7,4 +7,4 @@ For project2, you need to fill in the code of the following sorting methods in t
 -	Bucket sort
 -	External sort
 
-Each method is described in detail in the pdf description of the project posted on Canvas.
+
